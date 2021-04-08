@@ -42,7 +42,7 @@ Copy-Item -Path $configTemplatePath -Destination $configUserPath -Force | Out-Nu
 # https://docs.chocolatey.org/en-us/create/create-packages#how-do-i-set-up-shims-for-applications-that-have-a-gui
 $binaryPath = (Join-Path -Path $packageDir -ChildPath $binaryFile)
 
-New-Item "$binaryPath.gui" -Type File -Force | Out-Null
-Install-BinFile -Name GSplus -Path $binaryPath -Command """-config $configUserPath"""
+# New-Item "$binaryPath.gui" -Type File -Force | Out-Null
+Install-BinFile -Name GSplus -Path $binaryPath -Command "`"-config '$configUserPath'`""
 
 # TODO: create shim ignore files for other binaries (i.e. 32bit build has some)
