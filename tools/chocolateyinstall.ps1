@@ -2,7 +2,7 @@
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
 
 # https://chocolatey.org/docs/helpers-get-os-architecture-width
-if (Get-ProcessorBits -Eq "32" -Or $env:ChocolateyForceX86) {
+if ((Get-ProcessorBits -Compare "32") -Or $env:ChocolateyForceX86) {
   $specificFolder = "gsplus-win32"
   $binaryFile = "gsplus32.exe"
 } else {
