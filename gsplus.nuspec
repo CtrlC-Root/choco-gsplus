@@ -11,7 +11,7 @@
     <projectUrl>https://apple2.gs/plus/</projectUrl>
     <iconUrl>https://cdn.statically.io/gh/CtrlC-Root/choco-gsplus/master/gsp_icon_webhead_256.png</iconUrl>
     <licenseUrl>https://raw.githubusercontent.com/digarok/gsplus/master/LICENSE.txt</licenseUrl>
-    <requireLicenseAcceptance>true</requireLicenseAcceptance>-->
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <projectSourceUrl>https://github.com/digarok/gsplus</projectSourceUrl>
     <docsUrl>https://github.com/digarok/gsplus/raw/master/doc/gsplusmanual.pdf</docsUrl>
     <bugTrackerUrl>https://github.com/digarok/gsplus/issues</bugTrackerUrl>
