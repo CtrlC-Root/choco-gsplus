@@ -4,10 +4,10 @@ $toolsDir = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
 # https://chocolatey.org/docs/helpers-get-os-architecture-width
 if ((Get-ProcessorBits -Compare "32") -Or $env:ChocolateyForceX86) {
   $specificFolder = "gsplus-win32"
-  $binaryFile = "$(Join-Path -Path $specificFolder -ChildPath "gsplus32.exe")"
+  $binaryFile = "gsplus32.exe"
 } else {
   $specificFolder = "gsplus-win-sdl"
-  $binaryFile = "$(Join-Path -Path $specificFolder -ChildPath "gsplus.exe")"
+  $binaryFile = "gsplus.exe"
 }
 
 $packageArgs = @{
@@ -29,8 +29,20 @@ $packageArgs = @{
 # https://docs.chocolatey.org/en-us/create/functions/install-chocolateyzippackage
 Install-ChocolateyZipPackage @packageArgs
 
-# create gui shim for gsplus.exe binary
-# https://docs.chocolatey.org/en-us/create/create-packages#how-do-i-set-up-shims-for-applications-that-have-a-gui
-New-Item "$(Join-Path -Path $toolsDir -ChildPath "$binaryFile.gui")" -Type File -Force | Out-Null
+# determine path to extracted archive files
+$packageDir = (Join-Path -Path $toolsDir -ChildPath $specificFolder)
 
-# TODO: store config.txt outside of package path?
+# create configuration file in user's home directory
+$configTemplatePath = (Join-Path -Path $packageDir -ChildPath "config.txt")
+$configUserPath = (Join-Path -Path $env:USERPROFILE -ChildPath "config.gsp")
+
+Copy-Item -Path $configTemplatePath -Destination $configUserPath -Force | Out-Null
+
+# create shim for emulator binary
+# https://docs.chocolatey.org/en-us/create/create-packages#how-do-i-set-up-shims-for-applications-that-have-a-gui
+$binaryPath = (Join-Path -Path $packageDir -ChildPath $binaryFile)
+
+New-Item "$binaryPath.gui" -Type File -Force | Out-Null
+Install-BinFile -Name GSplus -Path $binaryPath -Command "-config $configUserPath"
+
+# TODO: create shim ignore files for other binaries (i.e. 32bit build has some)
