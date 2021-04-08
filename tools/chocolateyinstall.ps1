@@ -1,6 +1,7 @@
 ﻿$ErrorActionPreference = 'Stop';
 $toolsDir = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
 
+# determine archive folder name and emulator binary file based on platform
 # https://chocolatey.org/docs/helpers-get-os-architecture-width
 if ((Get-ProcessorBits -Compare "32") -Or $env:ChocolateyForceX86) {
   $specificFolder = "gsplus-win32"
@@ -10,6 +11,8 @@ if ((Get-ProcessorBits -Compare "32") -Or $env:ChocolateyForceX86) {
   $binaryFile = "gsplus.exe"
 }
 
+# download and install zip package
+# https://docs.chocolatey.org/en-us/create/functions/install-chocolateyzippackage
 $packageArgs = @{
   packageName     = $env:ChocolateyPackageName
   unzipLocation   = $toolsDir
@@ -26,23 +29,34 @@ $packageArgs = @{
   checksumType64  = 'sha256'
 }
 
-# https://docs.chocolatey.org/en-us/create/functions/install-chocolateyzippackage
 Install-ChocolateyZipPackage @packageArgs
 
 # determine path to extracted archive files
 $packageDir = (Join-Path -Path $toolsDir -ChildPath $specificFolder)
 
-# create configuration file in user's home directory
+# create configuration file in user's home directory if it doesn't already exist
 $configTemplatePath = (Join-Path -Path $packageDir -ChildPath "config.txt")
 $configUserPath = (Join-Path -Path $env:USERPROFILE -ChildPath "config.gsp")
 
-Copy-Item -Path $configTemplatePath -Destination $configUserPath -Force | Out-Null
+if (-Not (Test-Path -Path $configUserPath -PathType Leaf)) {
+  Copy-Item -Path $configTemplatePath -Destination $configUserPath -Force | Out-Null
+}
 
-# create shim for emulator binary
-# https://docs.chocolatey.org/en-us/create/create-packages#how-do-i-set-up-shims-for-applications-that-have-a-gui
+# explicitly create shim for emulator binary to use same binary name on all platforms
+# XXX: switch to using Install-BinFile -Command flag at some point
+# https://github.com/chocolatey/choco/issues/1273#issuecomment-815443431
+# https://github.com/chocolatey/shimgen/issues/16#issuecomment-815441450
 $binaryPath = (Join-Path -Path $packageDir -ChildPath $binaryFile)
+Install-BinFile -Name GSplus -Path $binaryPath
 
-# New-Item "$binaryPath.gui" -Type File -Force | Out-Null
-Install-BinFile -Name GSplus -Path $binaryPath -Command "'-config `"$configUserPath`"'"
+# create shim ignore files for other binaries
+# https://docs.chocolatey.org/en-us/create/create-packages#how-do-i-exclude-executables-from-getting-shims
+$binaries = (Get-ChildItem -Path $packageDir -Include '*.exe' -Exclude $binaryFile -Recurse)
+foreach ($binary in $binaries) {
+  New-Item -Path "$binary.ignore" -Type File -Force | Out-Null
+}
 
-# TODO: create shim ignore files for other binaries (i.e. 32bit build has some)
+# create shim for wrapper script
+# https://docs.chocolatey.org/en-us/create/functions/install-chocolateypowershellcommand
+$wrapperScript = (Join-Path -Path $toolsDir -ChildPath "RunGSplus.ps1")
+Install-ChocolateyPowershellCommand -PackageName "gsplus" -PSFileFullPath $wrapperScript
