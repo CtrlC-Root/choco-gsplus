@@ -43,6 +43,6 @@ Copy-Item -Path $configTemplatePath -Destination $configUserPath -Force | Out-Nu
 $binaryPath = (Join-Path -Path $packageDir -ChildPath $binaryFile)
 
 New-Item "$binaryPath.gui" -Type File -Force | Out-Null
-Install-BinFile -Name GSplus -Path $binaryPath -Command "-config $configUserPath"
+Install-BinFile -Name GSplus -Path $binaryPath -Command """-config $configUserPath"""
 
 # TODO: create shim ignore files for other binaries (i.e. 32bit build has some)
