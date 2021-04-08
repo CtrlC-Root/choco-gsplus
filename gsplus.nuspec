@@ -10,7 +10,6 @@
     <authors>Dagen Brock</authors>
     <projectUrl>https://apple2.gs/plus/</projectUrl>
     <iconUrl>https://cdn.statically.io/gh/CtrlC-Root/choco-gsplus/master/gsp_icon_webhead_256.png</iconUrl>
-    <!--<copyright>Year Software Vendor</copyright>-->
     <licenseUrl>https://raw.githubusercontent.com/digarok/gsplus/master/LICENSE.txt</licenseUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>-->
     <projectSourceUrl>https://github.com/digarok/gsplus</projectSourceUrl>
@@ -19,16 +18,6 @@
     <tags>gsplus emulator</tags>
     <summary>Modern cross-platform Apple IIgs emulator and tools based on KEGS</summary>
     <description>Modern cross-platform Apple IIgs emulator and tools based on KEGS</description>
-
-    <!-- Specifying dependencies and version ranges? https://docs.nuget.org/create/versioning#specifying-version-ranges-in-.nuspec-files -->
-    <!--<dependencies>
-      <dependency id="" version="__MINIMUM_VERSION__" />
-      <dependency id="" version="[__EXACT_VERSION__]" />
-      <dependency id="" version="[_MIN_VERSION_INCLUSIVE, MAX_VERSION_INCLUSIVE]" />
-      <dependency id="" version="[_MIN_VERSION_INCLUSIVE, MAX_VERSION_EXCLUSIVE)" />
-      <dependency id="" />
-      <dependency id="chocolatey-core.extension" version="1.1.0" />
-    </dependencies>-->
   </metadata>
   <files>
     <file src="tools\**" target="tools" />
