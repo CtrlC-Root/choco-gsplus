@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>gsplus</id>
-    <version>0.14</version>
+    <version>0.14.0.20251123</version>
     <packageSourceUrl>https://github.com/CtrlC-Root/choco-gsplus</packageSourceUrl>
     <owners>CtrlC-Root</owners>
 
