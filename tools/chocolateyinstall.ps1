@@ -20,11 +20,11 @@ $packageArgs = @{
 
   softwareName    = 'GSplus*'
 
-  url             = 'https://apple2.gs/downloads/plusbuilds/0.14/gsplus-win32.zip'
+  url             = 'https://github.com/digarok/gsplus/releases/download/v0.14/gsplus-win32.zip'
   checksum        = '7C2669B51FBE76082E59F9CA4172C1D5103097CB67BF3D33E8D419109E5FF54F'
   checksumType    = 'sha256'
 
-  url64bit        = 'https://apple2.gs/downloads/plusbuilds/0.14/gsplus-win-sdl.zip'
+  url64bit        = 'https://github.com/digarok/gsplus/releases/download/v0.14/gsplus-win-sdl.zip'
   checksum64      = '4C2E8EC843140E766632FEE8F991CAD72EDCE5C876C2CE98B089019D1150AB2E'
   checksumType64  = 'sha256'
 }
